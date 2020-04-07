@@ -1,6 +1,7 @@
-const Game = () => {
+const Game = (callback) => {
     let canvas = e('#canvas')
     let context = canvas.getContext("2d")
+
     let g = {
         canvas: canvas,
         context: context,
@@ -20,11 +21,15 @@ const Game = () => {
     g.registerActions = (key, callback) => {
         g.actions[key] = callback
     }
-    // fps
-    window.fps = 60
-    e('#input-fps').addEventListener('input', function(event) {
-        window.fps = event.target.value
-    })
+    // update
+    g.update = () => {
+        g.scene.update()
+    }
+    // draw
+    g.draw = () => {
+        g.scene.draw()
+    }
+
     // timer
     let runloop = () => {
         // update events
@@ -45,8 +50,17 @@ const Game = () => {
             runloop()
         }, 1000 / window.fps)
     }
-    setTimeout(function(){
-        runloop()
-    }, 1000 / window.fps)
+    g.runWithScene = (scene) => {
+        g.scene = scene
+        // 开始运行程序
+        setTimeout(function(){
+            runloop()
+        }, 1000 / window.fps)
+    }
+    g.changeScene = (scene) => {
+        g.scene = scene
+    }
+    callback(g)
+
     return g
 }

@@ -7,7 +7,10 @@ const loadLevel = (n) => {
     return array
 }
 
-const test = (game, ball) => {
+const enableDebugMode = (game, enable) => {
+    if (!enable) {
+        return
+    }
     window.addEventListener('keydown', function(event) {
         let key = event.key
         if (key === 'p') {
@@ -18,6 +21,7 @@ const test = (game, ball) => {
     })
     // 拖动小球
     let drag = false
+    let ball = Ball()
     game.canvas.addEventListener('mousedown', function(event) {
         if (ball.hasPoint(event.offsetX, event.offsetY)) {
             drag = true
@@ -32,65 +36,22 @@ const test = (game, ball) => {
     game.canvas.addEventListener('mouseup', function(event) {
         drag = false
     })
+    // fps
+    window.fps = 60
+    e('#input-fps').addEventListener('input', function(event) {
+        window.fps = event.target.value
+    })
 }
 
 let blocks = []
 
 const __main = () => {
-    let game = Game()
-    let score = 0
-    let paddle = Paddle()
-    let ball = Ball()
-    blocks = loadLevel(1)
-
-    // test
-    test(game, ball)
-
-    game.registerActions('a', function() {
-        paddle.moveLeft()
-    })
-    game.registerActions('d', function() {
-        paddle.moveRight()
-    })
-    game.registerActions('f', function() {
-        ball.fire()
+    let game = Game(function(game) {
+        let scene = SceneStart(game)
+        game.runWithScene(scene)
     })
 
-    window.pause = false
-
-    game.update = () => {
-        if (window.pause === true) {
-            return
-        }
-        ball.move()
-        // 板 球 相撞
-        if (collide(ball, paddle)) {
-            ball.hit()
-        }
-        // 球 块 相撞
-        for (let j = 0; j < blocks.length; j++) {
-            let block = blocks[j]
-            if (block.alive) {
-                if (collide(ball, block)) {
-                    ball.hit()
-                    block.hit()
-                    score += 100
-                }
-            }
-        }
-    }
-    game.draw = () => {
-        game.drawImage(paddle)
-        game.drawImage(ball)
-        for (let j = 0; j < blocks.length; j++) {
-            let block = blocks[j]
-            if (block.alive) {
-                game.drawImage(block)
-            }
-        }
-        game.context.fillText(`分数：${score}`, 350, 20)
-    }
-
+    enableDebugMode(game, true)
 }
 
 __main()
