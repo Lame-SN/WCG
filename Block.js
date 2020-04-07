@@ -1,23 +1,22 @@
 const Block = (position) => {
-    let block = new Image()
-    block.src = 'img/block.png'
-    let blockObject = {
-        img: block,
+    let block = imgFromPath('./img/block.png')
+    let o = {
+        image: block,
         x: position[0],
         y: position[1],
         life: position[2],
-        live: true,
+        alive: true,
     }
-    block.onload = function() {
-        blockObject.w = block.width
-        blockObject.h = block.height
+    block.onload = () => {
+        o.w = block.width
+        o.h = block.height
     }
-    blockObject.hit = function() {
-        blockObject.life--
-        if (blockObject.life < 1) {
-            blockObject.live = false
+    o.hit = () => {
+        o.life -= 1
+        if (o.life < 1) {
+            o.alive = false
         }
     }
 
-    return blockObject
+    return o
 }
