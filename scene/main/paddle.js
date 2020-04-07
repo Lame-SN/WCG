@@ -2,15 +2,14 @@ const Paddle = () => {
     let paddle = imgFromPath('./img/paddle.png')
     let o = {
         image: paddle,
-        x: 100,
+        x: 170,
         y: 250,
-        speed: 10,
+        speed: 8,
     }
     paddle.onload = () => {
         o.w = paddle.width
         o.h = paddle.height
     }
-
     o.move = () => {
         if (o.x < 0) {
             o.x = 0

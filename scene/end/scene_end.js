@@ -1,23 +1,15 @@
-const SceneEnd = (game) => {
-    let o = {}
-
-    let play = false
-    game.registerActions('j', function() {
-        log('j')
-        play = true
-    })
-
-    o.update = () => {
-        if (play === true) {
-            let scene = Scene(game)
+class sceneEnd extends Scene {
+    constructor(game) {
+        super(game)
+        game.registerActions('r', function() {
+            // 跳转游戏开始场景
+            let scene = sceneStart.new(game)
             game.changeScene(scene)
-            play = false
-        }
+        })
     }
 
-    o.draw = () => {
-        game.context.fillText(`Game over`, 200, 150)
-        game.context.fillText(`点击屏幕继续`, 200, 200)
+    draw() {
+        this.game.context.fillText(`Game over`, 200, 150)
+        this.game.context.fillText(`点击 R 继续`, 200, 200)
     }
-    return o
 }

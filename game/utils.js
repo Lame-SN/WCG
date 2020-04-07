@@ -1,6 +1,6 @@
 const log = console.log.bind(console)
 
-const e = (selector) => document.querySelector(selector)
+const e = selector => document.querySelector(selector)
 
 const collide = (paddleObject, ballObject) => {
     let b1 = Math.abs((ballObject.x + ballObject.w/2) - (paddleObject.x + paddleObject.w/2)) < (ballObject.w + paddleObject.w)/2

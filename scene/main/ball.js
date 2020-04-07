@@ -2,10 +2,10 @@ const Ball = () => {
     let ball = imgFromPath('./img/ball.png')
     let o = {
         image: ball,
-        x: 150,
-        y: 100,
-        speedX: 5,
-        speedY: 5,
+        x: 120,
+        y: 150,
+        speedX: 3,
+        speedY: 3,
         fired: false,
     }
     ball.onload = () => {
