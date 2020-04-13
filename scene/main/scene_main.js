@@ -6,8 +6,18 @@ class sceneMain extends Scene {
         this.ball = Ball()
         blocks = loadLevel(1)
 
+        game.registerActions('a', function() {
+            self.paddle.moveLeft()
+        })
+        game.registerActions('d', function() {
+            self.paddle.moveRight()
+        })
+        game.registerActions('f', function() {
+            self.ball.fire()
+        })
+
+        // 拖动小球(debug)
         let drag = false
-        // 拖动小球
         let self = this
         game.canvas.addEventListener('mousedown', function(event) {
             if (self.ball.hasPoint(event.offsetX, event.offsetY)) {
@@ -22,16 +32,6 @@ class sceneMain extends Scene {
         })
         game.canvas.addEventListener('mouseup', function(event) {
             drag = false
-        })
-
-        game.registerActions('a', function() {
-            self.paddle.moveLeft()
-        })
-        game.registerActions('d', function() {
-            self.paddle.moveRight()
-        })
-        game.registerActions('f', function() {
-            self.ball.fire()
         })
     }
     update() {
